@@ -28,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     logo: DataTypes.STRING
   }, {
-    hooks: {
-      afterValidate: (organization, options) => {
-        organization.name = organization.name.toLowerCase();
-      }
-    },
+    // hooks: {
+    //   afterValidate: (organization, options) => {
+    //     organization.name = organization.name.toLowerCase();
+    //   }
+    // },
     sequelize,
     modelName: 'Organization',
   });

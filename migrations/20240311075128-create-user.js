@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
       username:{
         type: Sequelize.STRING,
@@ -23,13 +23,19 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false,
       },
-      role: {
-          type: Sequelize.ENUM('admin', 'manager', 'student'),
-          defaultValue: 'student'
-      },
       is_active: {
           type: Sequelize.ENUM('0', '1'),
           defaultValue: '0'
+      },
+      role_id: {
+          type: Sequelize.UUID,
+          allowNull: false,
+          references: {
+            model: 'Roles',
+            key: 'id'
+          },
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

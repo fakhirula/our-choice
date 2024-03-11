@@ -1,13 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const { getAll, store } = require('../controllers/organizationController');
+const { index, store, show, update, destroy } = require('../controllers/organizationController');
 
 // Organizations
-router.get('/organizations', getAll)
+router.get('/organizations', index)
 router.post('/organizations', store)
-router.get('/organizations/filter', (req,res) => {
+router.get('/organizations/:id', show)
+router.put('/organizations/:id', update)
+router.delete('/organizations/:id', destroy)
+
+router.delete('/organizations/filter', (req,res) => {
     res.send('Filter Data')
 })
+
+// GET           /users                      index   users.index
+// GET           /users/create               create  users.create
+// POST          /users                      store   users.store
+// GET           /users/{user}               show    users.show
+// GET           /users/{user}/edit          edit    users.edit
+// PUT|PATCH     /users/{user}               update  users.update
+// DELETE        /users/{user}               destroy users.destroy
 
 
 module.exports = router

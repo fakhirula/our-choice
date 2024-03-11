@@ -19,6 +19,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.get(URL, (req, res) => {
+  res.send('API v1 active!')
+})
+
 // Start server
 app.listen(PORT, () => {
   console.log(`App run on port ${PORT}`)
