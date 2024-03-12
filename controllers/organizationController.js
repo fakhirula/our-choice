@@ -7,7 +7,7 @@ exports.index = async (req, res) => {
         if (organization.length === 0) {
             return res.status(200).json({ 
                 success: false, 
-                message: 'Data not found.' 
+                error: 'Data not found.' 
             });
         } 
 
@@ -15,6 +15,7 @@ exports.index = async (req, res) => {
             status: true,
             data: organization
         })
+
     } catch (error) {
         return res.status(500).json({
             status: false,
@@ -25,22 +26,20 @@ exports.index = async (req, res) => {
 
 exports.store = async (req, res) => {
     try {
-        let {name,logo} = req.body;
+        const newOrganization = await Organization.create({ 
+            name: req.body.name, 
+            logo: req.body.logo 
+        });
 
-        const newOrganization = await Organization.create(
-            {
-                name,
-                logo
-            }
-        );
         res.status(201).json({
             status: true,
             data: newOrganization
         })
+
     } catch (error) {
         return res.status(400).json({
             status: false,
-            error: error.errors
+            error: error.errors.map(err => err.message)
         })
     }
 }
@@ -61,6 +60,7 @@ exports.show = async (req, res) => {
             status: true,
             data: organization
         })
+
     } catch (error) {
         return res.status(500).json({
             status: false,
@@ -72,9 +72,8 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const id = req.params.id
-        const { name } = req.body
 
-        if (!name) {
+        if (!req.body.name) {
             return res.status(400).json({
                 status: false,
                 error: 'Name is required.'
@@ -86,6 +85,7 @@ exports.update = async (req, res) => {
                 id: id
             }
         })
+        
         const updatedOrganization = await Organization.findByPk(id)
 
         if (!updatedOrganization) {
@@ -99,6 +99,7 @@ exports.update = async (req, res) => {
             status: true,
             data: updatedOrganization
         })
+
     } catch (error) {
         return res.status(500).json({
             status: false,

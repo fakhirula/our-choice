@@ -1,6 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
-const Routes = require('./routes/index')
+const router = require('./routes/index')
 
 dotenv.config()
 
@@ -10,9 +10,9 @@ const PORT = process.env.PORT || 3000
 // Middleware
 app.use(express.json())
 
-// Routes
+// Routing
 const URL = '/api/v1'
-app.use(URL, Routes)
+app.use(URL, router)
 
 // Default route
 app.get('/', (req, res) => {

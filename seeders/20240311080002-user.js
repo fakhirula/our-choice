@@ -19,18 +19,18 @@ module.exports = {
           username: 'admin',
           email: 'admin@gmail.com',
           password: 'admin',
-          role: 'admin',
           is_active: '1',
+          role_id: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           id: 2,
-          username: 'manager',
-          email: 'manager@gmail.com',
-          password: 'manager',
-          role: 'manager',
+          username: 'officer',
+          email: 'officer@gmail.com',
+          password: 'officer',
           is_active: '1',
+          role_id: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -39,8 +39,8 @@ module.exports = {
           username: 'student',
           email: 'student@gmail.com',
           password: 'student',
-          role: 'student',
           is_active: '1',
+          role_id: null,
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -49,6 +49,12 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
+    /**
+     * Add commands to revert seed here.
+     *
+     * Example:
+     * await queryInterface.bulkDelete('People', null, {});
+     */
     return queryInterface.bulkDelete('Users', null, {});
   }
 };

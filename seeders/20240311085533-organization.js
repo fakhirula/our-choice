@@ -43,7 +43,7 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          id: 3,
+          id: 5,
           name: 'HMPSSI',
           logo: null,
           createdAt: new Date(),
@@ -60,5 +60,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    return queryInterface.bulkDelete('Organizations', null, {});
   }
 };
