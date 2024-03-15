@@ -7,19 +7,20 @@ exports.index = async (req, res) => {
         if (organization.length === 0) {
             return res.status(200).json({ 
                 success: false, 
-                error: 'Data not found.' 
+                message: 'Data not found.' 
             });
         } 
 
         return res.status(200).json({
             status: true,
+            message: 'OK! Data fetched successfully.',
             data: organization
         })
 
     } catch (error) {
         return res.status(500).json({
             status: false,
-            error: 'Oops! Something went wrong on our end. Please try again later.'
+            message: 'Internal Server Error. Oops! Something went wrong on our end. Please try again later.'
         })
     }
 }
@@ -33,13 +34,14 @@ exports.store = async (req, res) => {
 
         res.status(201).json({
             status: true,
+            message: 'Created! Data added successfully.',
             data: newOrganization
         })
 
     } catch (error) {
         return res.status(400).json({
             status: false,
-            error: error.errors.map(err => err.message)
+            message: error.errors.map(err => err.message)
         })
     }
 }
@@ -52,19 +54,20 @@ exports.show = async (req, res) => {
         if (!organization) {
             return res.status(404).json({
                 status: false,
-                error: 'Data not found.'
+                message: 'Data not found.'
             })
         }
 
         return res.status(200).json({
             status: true,
+            message: 'OK! Data fetched successfully.',
             data: organization
         })
 
     } catch (error) {
         return res.status(500).json({
             status: false,
-            error: 'Oops! Something went wrong on our end. Please try again later.'
+            message: 'Internal Server Error. Oops! Something went wrong on our end. Please try again later.'
         })
     }
 }
@@ -76,7 +79,7 @@ exports.update = async (req, res) => {
         if (!req.body.name) {
             return res.status(400).json({
                 status: false,
-                error: 'Name is required.'
+                message: 'Bad Request! Name is required.'
             })
         }
         
@@ -91,19 +94,20 @@ exports.update = async (req, res) => {
         if (!updatedOrganization) {
             return res.status(404).json({
                 status: false,
-                error: 'Data not found.'
+                message: 'Data not found.'
             })
         }
 
         return res.status(200).json({
             status: true,
+            message: 'OK! Data updated successfully.',
             data: updatedOrganization
         })
 
     } catch (error) {
         return res.status(500).json({
             status: false,
-            error: 'Oops! Something went wrong on our end. Please try again later.'
+            message: 'Internal Server Error. Oops! Something went wrong on our end. Please try again later.'
         })
     }
 }
@@ -116,7 +120,7 @@ exports.destroy = async (req, res) => {
     if(!organization) {
         return res.status(404).json({
             status: false,
-            error: 'Data not found.'
+            message: 'Data not found.'
         })
     }
 
@@ -128,6 +132,6 @@ exports.destroy = async (req, res) => {
 
     return res.status(200).json({
         status: true,
-        message: `Data with id ${id} deleted successfully.`
+        message: `OK! Data with id ${id} deleted successfully.`
     })
 }

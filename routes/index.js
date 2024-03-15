@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router()
 const { index, store, show, update, destroy } = require('../controllers/organizationController')
 const { register, login } = require('../controllers/authController')
+const { authMiddleware } = require('../middleware/userMiddleware')
 
 // Organizations
-router.get('/organizations', index)
-router.post('/organizations', store)
-router.get('/organizations/:id', show)
-router.put('/organizations/:id', update)
-router.delete('/organizations/:id', destroy)
+router.get('/organizations', authMiddleware, index)
+router.post('/organizations', authMiddleware, store)
+router.get('/organizations/:id', authMiddleware, show)
+router.put('/organizations/:id', authMiddleware, update)
+router.delete('/organizations/:id', authMiddleware, destroy)
 
 // Auth
 router.post('/auth/register', register)

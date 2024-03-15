@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
         if (req.body.password !== req.body.passwordConf) {
             return res.status(422).json({
                 status: false,
-                error: ['Register failed. The password and password confirmation do not match.']
+                message: ['Unprocessable Entity! The password and password confirmation do not match.']
             })
         }
 
@@ -26,14 +26,16 @@ exports.register = async (req, res) => {
 
         return res.status(201).json({
             status: true,
-            message: "Registration successful. Welcome aboard!",
-            token: token
+            message: "Created! Registration successful. Welcome aboard!",
+            data: {
+                token: token
+            }
         })
         
     } catch (error) {
         return res.status(400).json({
             status: false,
-            error: error.errors
+            message: error.errors
         })
     }
 }
@@ -42,7 +44,7 @@ exports.login = async (req, res) => {
     if(!req.body.username || !req.body.password) {
         return res.status(400).json({
             status: false,
-            error: 'Please provide a valid username address and password.'
+            message: 'Bad Request! Please provide a valid username address and password.'
         })
     }
 
@@ -55,7 +57,7 @@ exports.login = async (req, res) => {
     if (!userData || !(await userData.CorrectPassword(req.body.password, userData.password))) {
         return res.status(400).json({
             status: false,
-            error: 'Login failed. Invalid email or password. Please try again.'
+            message: 'Bad Request! Invalid email or password. Please try again.'
         })
     }
 
@@ -63,7 +65,7 @@ exports.login = async (req, res) => {
 
     return res.status(200).json({
         status: true,
-        message: "Login successful. Enjoy your day!",
+        message: "OK! Login successful. Enjoy your day!",
         data: {
             id: userData.id,
             username: userData.username,

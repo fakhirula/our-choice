@@ -1,5 +1,8 @@
 'use strict';
 
+const { v4 } = require('uuid')
+const bcrypt = require('bcrypt')
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -12,37 +15,37 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert('Users', 
+    const salt = await bcrypt.genSaltSync(10)
+
+    const adminRole = await queryInterface.rawSelect('roles', {
+      where: {
+        name: 'admin'
+      }
+    }, ['id'])
+
+    const officerRole = await queryInterface.rawSelect('roles', {
+      where: {
+        name: 'officer'
+      }
+    }, ['id'])
+
+    await queryInterface.bulkInsert('Users', 
       [
         {
-          id: 1,
+          id: v4(),
           username: 'admin',
           email: 'admin@gmail.com',
-          password: 'admin',
+          password: bcrypt.hashSync('admin', salt),
           is_active: '1',
-          role_id: null,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          role_id: adminRole
         },
         {
-          id: 2,
+          id: v4(),
           username: 'officer',
           email: 'officer@gmail.com',
-          password: 'officer',
+          password: bcrypt.hashSync('officer', salt),
           is_active: '1',
-          role_id: null,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          id: 3,
-          username: 'student',
-          email: 'student@gmail.com',
-          password: 'student',
-          is_active: '1',
-          role_id: null,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          role_id: officerRole
         }
       ]
     );
@@ -55,6 +58,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    return queryInterface.bulkDelete('Users', null, {});
+    await queryInterface.bulkDelete('Users', null, {});
   }
 };
